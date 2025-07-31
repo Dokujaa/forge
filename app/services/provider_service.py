@@ -492,8 +492,12 @@ class ProviderService:
                 api_key,
             )
         elif "images/generations" in endpoint:
-            # TODO: we only support openai for now
-            if provider_name != "openai":
+            # Support multiple image generation providers
+            supported_image_providers = {
+                "openai", "blackforest", "ideogram", "runway", 
+                "stability", "luma", "recraft"
+            }
+            if provider_name not in supported_image_providers:
                 error_message = f"Unsupported endpoint: {endpoint} for provider {provider_name}"
                 logger.error(error_message)
                 raise NotImplementedError(error_message)

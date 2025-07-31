@@ -116,6 +116,28 @@ class ProviderAdapter(ABC):
         self._models_cache[cache_key] = models
         self._models_cache_expiry[cache_key] = time.time() + self._models_cache_ttl
 
+    async def process_image_generation(
+        self,
+        endpoint: str,
+        payload: dict[str, Any],
+        api_key: str,
+    ) -> Any:
+        """Process an image generation request - default implementation raises NotImplementedError"""
+        raise NotImplementedError(
+            f"Image generation not supported by {self.provider_name}"
+        )
+
+    async def process_image_edits(
+        self,
+        endpoint: str,
+        payload: dict[str, Any],
+        api_key: str,
+    ) -> Any:
+        """Process an image edits request - default implementation raises NotImplementedError"""
+        raise NotImplementedError(
+            f"Image editing not supported by {self.provider_name}"
+        )
+
     @abstractmethod
     async def list_models(self, api_key: str, base_url: str | None = None) -> list[str]:
         """List all models (verbosely) supported by the provider"""

@@ -2,6 +2,7 @@
 Logger configuration using loguru.
 """
 
+import os
 import sys
 from pathlib import Path
 
@@ -20,20 +21,27 @@ logger.add(
     diagnose=True,  # Enable exception diagnosis
 )
 
-# Add file handler for debugging
-log_path = Path("logs")
-log_path.mkdir(exist_ok=True)
+# Add file handler for debugging only if enabled
+log_to_file = os.getenv("FORGE_LOG_TO_FILE", "true").lower() == "true"
 
-logger.add(
-    "logs/forge_{time}.log",
-    rotation="1 day",  # Create new file daily
-    retention="1 week",  # Keep logs for 1 week
-    compression="zip",  # Compress rotated logs
-    level="DEBUG",
-    enqueue=True,
-    backtrace=True,
-    diagnose=True,
-)
+if log_to_file:
+    try:
+        log_path = Path("logs")
+        log_path.mkdir(exist_ok=True)
+
+        logger.add(
+            "logs/forge_{time}.log",
+            rotation="1 day",  # Create new file daily
+            retention="1 week",  # Keep logs for 1 week
+            compression="zip",  # Compress rotated logs
+            level="DEBUG",
+            enqueue=True,
+            backtrace=True,
+            diagnose=True,
+        )
+    except Exception as e:
+        # If file logging fails, continue with console logging only
+        logger.warning(f"Failed to initialize file logging: {e}")
 
 # Export logger instance
 get_logger = logger.bind

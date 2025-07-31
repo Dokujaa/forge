@@ -5,11 +5,16 @@ from .anthropic_adapter import AnthropicAdapter
 from .azure_adapter import AzureAdapter
 from .base import ProviderAdapter
 from .bedrock_adapter import BedrockAdapter
+from .blackforest_adapter import BlackForestAdapter
 from .cohere_adapter import CohereAdapter
 from .fireworks_adapter import FireworksAdapter
+from .ideogram_adapter import IdeogramAdapter
+from .luma_adapter import LumaAdapter
 from .mock_adapter import MockAdapter
 from .openai_adapter import OpenAIAdapter
 from .perplexity_adapter import PerplexityAdapter
+from .runway_adapter import RunwayAdapter
+from .stability_adapter import StabilityAdapter
 from .tensorblock_adapter import TensorblockAdapter
 from .zhipu_adapter import ZhipuAdapter
 from .vertex_adapter import VertexAdapter
@@ -200,6 +205,30 @@ class ProviderAdapterFactory:
         },
         "mock": {
             "adapter": MockAdapter,
+        },
+        "blackforest": {
+            "base_url": "https://api.bfl.ai",
+            "adapter": BlackForestAdapter,
+        },
+        "ideogram": {
+            "base_url": "https://api.ideogram.ai",
+            "adapter": IdeogramAdapter,
+        },
+        "runway": {
+            "base_url": "https://api.dev.runwayml.com",
+            "adapter": RunwayAdapter,
+        },
+        "stability": {
+            "base_url": "https://api.stability.ai",
+            "adapter": StabilityAdapter,
+        },
+        "luma": {
+            "base_url": "https://api.lumalabs.ai",
+            "adapter": LumaAdapter,
+        },
+        "recraft": {
+            "base_url": "https://external.api.recraft.ai/v1",
+            "adapter": OpenAIAdapter,
         },
     }
 
